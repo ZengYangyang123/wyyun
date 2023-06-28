@@ -64,7 +64,7 @@
                         <div v-for="item in songSheet" :key="item.id" class="swiper-slide  marginr relative">
                             <div class=" flex items-center absolute right-2 text-white">
                                 <icon icon="uiw:caret-right"></icon>
-                                <span>{{item.resources[0].resourceExtInfo.playCount/10000}}万</span>
+                                <span>{{Math.round(item.resources[0].resourceExtInfo.playCount/10000)}}万</span>
                             </div>
                             <img :src="item.uiElement.image.imageUrl" alt="" class=" w-full h-32 rounded-xl">
                             <p class=" text-sm mt-2 yingcang">{{ item.uiElement.mainTitle.title }}</p>
