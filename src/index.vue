@@ -2,7 +2,9 @@
     <div class="w-screen overflow-hidden jbs">
         <!-- 头部 -->
         <div class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20 bg-white jbs">
-            <Icon icon="prime:bars" class="text-4xl" @click="drawerSidebar = !drawerSidebar"></Icon>
+            <div @click="drawerSidebar = !drawerSidebar">
+                <Icon icon="prime:bars" class="text-4xl" ></Icon>
+            </div>
             <div class="relative w-8/12 h-full flex items-center">
                 <div class="w-full h-10 rounded-3xl pl-9 jbs1 relative">
                     <input type="text" placeholder="张杰" class="w-full h-10 rounded-3xl pl-9 absolute left-0 jbs2" />
@@ -265,12 +267,12 @@
 
         </div> -->
         <!-- 侧边栏 -->
-        <!-- <Sidebar :slideTwo="drawerSidebar" @dianjiTwo="(e) => (drawerSidebar = e)">
+        <Sidebar :visible="drawerSidebar" @dianji="(e) => (drawerSidebar = e)">
             <template #headerTwo>
 
             </template>
-
-        </Sidebar> -->
+            
+        </Sidebar>
     </div>
 </template>
 <script>
@@ -283,10 +285,9 @@ export default {
     data() {
         //响应式数据
         return {
-            drawerSidebar:false,
+            drawerSidebar:true,
             drawerVisible: false,
             visible: true,
-            slideTwo:true,
             menu: [],
             songSheet: [],
             newSong: [],
