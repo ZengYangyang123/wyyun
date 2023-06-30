@@ -2,7 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
 const path = require('path');
-const { VueLoaderPlugin } = require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader');
+
 module.exports = {
   entry: './src/index.js',
   devtool: 'source-map',
@@ -24,7 +25,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          // 'vue-style-loader',
+          'css-loader',
+          'postcss-loader',
+        ],
       },
       {
         test: /\.less$/,
@@ -49,9 +55,9 @@ module.exports = {
       '@': path.resolve(__dirname, '../src'),
     },
   },
-  externals: {
-    vue: 'Vue',
-  },
+  // externals: {
+  //   vue: 'Vue',
+  // },
   devServer: {
     open: true,
     // 配置前端请求代理
@@ -76,10 +82,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       cdn: {
-        script: ['https://cdn.jsdelivr.net/npm/vue@2'],
+        script: [
+          // 'https://cdn.jsdelivr.net/npm/vue@2'
+        ],
         style: [],
       },
     }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
   ],
 };
