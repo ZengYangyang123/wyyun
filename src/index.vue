@@ -265,12 +265,12 @@
 
         </div> -->
         <!-- 侧边栏 -->
-        <Sidebar :slideTwo="drawerSidebar" @dianjiTwo="(e) => (drawerSidebar = e)">
+        <!-- <Sidebar :slideTwo="drawerSidebar" @dianjiTwo="(e) => (drawerSidebar = e)">
             <template #headerTwo>
 
             </template>
 
-        </Sidebar>
+        </Sidebar> -->
     </div>
 </template>
 <script>
