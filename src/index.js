@@ -10,6 +10,9 @@ Vue.component('Drawer',Drawer)
 import Sidebar from '@/components/Sidebar.vue'
 Vue.component('Sidebar',Sidebar)
 
+import Switch from "@/components/Switch.vue"
+Vue.component('v-switch',Switch)
+
 import { Swipe, SwipeItem } from 'vant';
 
 Vue.use(Swipe);
