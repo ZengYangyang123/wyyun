@@ -349,7 +349,7 @@ export default {
             const body = document.querySelector('.zhuye');
             // console.log(body)
             // console.log(this.drawerVisible)
-            body.setAttribute('style', `overflow: ${this.drawerVisible ? ' scroll' : ' hidden'}`);
+            body.setAttribute('style', `overflow: ${this.drawerSidebar ? ' scroll' : ' hidden'}`);
   
         }
 
