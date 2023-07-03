@@ -2,7 +2,7 @@
     <div @click="clickHandler" class=" fixed bottom-0 z-30 " :class="{dark:switchVant}">
         <div class=" w-screen h-screen bg-black opacity-40 z-40 " ref="drawerMask" v-if="visible"></div>
         <transition name="slide">
-            <div v-show="visible" class=" w-10/12 h-screen bg-[#F5F5F5] text-black dark:text-white dark:bg-[#0F0F0F]  absolute left-0 bottom-0 z-50 "
+            <div v-show="visible" class=" w-10/12 h-screen bg-[#F5F5F5] text-black dark:text-white dark:bg-[#212121]  absolute left-0 bottom-0 z-50 "
                 style="overflow-y: scroll;">
                 <div>
                     <slot name="headerTwo">

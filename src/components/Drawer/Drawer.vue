@@ -2,7 +2,7 @@
     <div @click="clickHandler" class=" fixed bottom-0 z-30">
         <div class=" w-screen h-screen bg-black opacity-40 z-40 " ref="drawerMask" v-if="visible"></div>
         <transition name="slide">
-            <div v-show="visible" class=" w-screen h-52 bg-white absolute left-0 bottom-0 rounded-t-3xl z-50">
+            <div v-show="visible" class=" w-screen h-52 bg-white absolute dark:bg-[#363636] dark:text-[#fff] left-0 bottom-0 rounded-t-3xl z-50">
                 <div>
                     <slot name="header">
                         <div class=" flex justify-between items-center pb-2 border-b ">

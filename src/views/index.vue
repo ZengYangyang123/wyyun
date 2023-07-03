@@ -1,8 +1,8 @@
 <template>
     <div class="w-screen overflow-hidden bg-[#FAFAFA] " :class="{ dark: switchCheckStatus }">
-        <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#0F0F0F] dark:text-[#fff]">
+        <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#212121] dark:text-[#fff]">
             <!-- 头部 -->
-            <div class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20 bg-white jbs">
+            <div class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
                 <div @click="drawerSidebar = !drawerSidebar; updateOverflow()">
                     <Icon icon="prime:bars" class="text-4xl"></Icon>
                 </div>
@@ -16,19 +16,17 @@
                 <Icon icon="ep:microphone" class="text-2xl"></Icon>
             </div>
             <!-- 轮播 -->
-            <div class="w-11/12 m-auto mt-24 h-32">
-                <div class="swiper-container h-full rounded-2xl relative">
-                    <div class="swiper-wrapper h-full">
-                        <div v-for="item in menu" :key="item.id" class="swiper-slide h-full">
-                            <img :src="item.pic" alt="" class="w-full h-full rounded-2xl" />
-                        </div>
-                    </div>
-                    <div class="swiper-pagination w-full h-5 absolute bottom-0"></div>
-                </div>
+            <div class=" h-[39vw] mt-[26vw] overflow-hidden">
+                <van-swipe class="my-swipe h-[39vw]  w-[100vw]" :autoplay="3000">
+                    <van-swipe-item v-for="item in menu" :key="item.id"
+                        class=" h-[39vw]  float-left rounded-2xl flex kuan overflow-hidden bg-[pink] ">
+                        <img :src="item.pic" alt="" class=" w-full h-full" />
+                    </van-swipe-item>
+                </van-swipe>
             </div>
             <!-- 菜单 -->
             <div class="w-11/12 m-auto mt-8 h-20">
-                <van-swipe class=" w-full h-full overflow-hidden">
+                <!-- <van-swipe class=" w-full h-full overflow-hidden">
                     <van-swipe-item class=" float-left" v-for="(i, x) in 2" :key="i.id">
                         <ul class="w-full h-16 flex justify-between">
                             <li class="w-2/12 h-full text-sm flex flex-col items-center justify-center"
@@ -38,12 +36,11 @@
                             </li>
                         </ul>
                     </van-swipe-item>
-                </van-swipe>
-
+                </van-swipe> -->
             </div>
             <!-- 推荐歌单 -->
-            <div class="w-11/12 m-auto mt-8">
-                <div class="flex justify-between">
+            <div class=" w-screen mt-8">
+                <div class="flex justify-between px-4">
                     <div class="flex items-center">
                         <span class="font-bold">推荐歌单</span>
                         <icon icon="uiw:right"></icon>
@@ -52,43 +49,25 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class="w-full h-40 mt-2">
-                    <div class="swiper-container h-32 w-[32vw] ">
-                        <div class="swiper-wrapper h-full  relative">
-                            <van-swipe vertical class=" absolute -bottom-6 z-10 h-5 overflow-hidden" :autoplay="3000">
-                                <van-swipe-item v-for=" to in newSong " :key="to.id" class=" text-sm yingcang">{{
-                                    to.resources[0].uiElement.subTitle.rcmdText }}</van-swipe-item>
-                            </van-swipe>
-                            <div class=" swiper-slide overflow-hidden rounded-xl h-28 marginright">
-                                <Icon icon="ion:infinite-outline" class=" absolute top-0 z-10 right-2 text-white text-xl"
-                                    color=" white" />
-                                <van-swipe class=" w-full h-32 " vertical :autoplay="3000">
-                                    <van-swipe-item v-for="item in newSong" :key="item.id" class=" bg-slate-300 h-32">
-                                        <img :src="item.resources[0].uiElement.image.imageUrl" alt="" class=" w-full h-32">
-                                    </van-swipe-item>
-                                </van-swipe>
-                            </div>
-                            <div v-for="item in songSheet" :key="item.id"
-                                class="swiper-slide   relative h-full marginright">
-
-                                <!-- <div class=" h-[10vw] bg-white rounded-xl w-10/12 absolute -top-1 left-2"></div> -->
-                                <div class=" w-full h-full absolute z-10">
-                                    <div class=" flex items-center absolute right-2 text-white">
-                                        <icon icon="uiw:caret-right"></icon>
-                                        <span>{{ Math.round(item.resources[0].resourceExtInfo.playCount / 10000) }}万</span>
-                                    </div>
-                                    <img :src="item.uiElement.image.imageUrl" alt="" class=" w-full h-32 rounded-xl">
-                                    <p class=" text-sm mt-2 yingcang">{{ item.uiElement.mainTitle.title }}</p>
+                <div class=" w-[100vw] h-[46vw]  overflow-hidden mt-2 pl-3">
+                    <van-swipe class=" my-swipe w-[36vw] h-full float-left">
+                        <van-swipe-item v-for="item in songSheet" :key="item.id"
+                            class="  relative   h-[46vw] float-left  flex mr-2">
+                            <div class=" w-full h-full absolute z-10">
+                                <div class=" flex items-center absolute right-2 text-white">
+                                    <icon icon="uiw:caret-right"></icon>
+                                    <span>{{ Math.round(item.resources[0].resourceExtInfo.playCount / 10000) }}万</span>
                                 </div>
+                                <img :src="item.uiElement.image.imageUrl" alt="" class=" w-full h-32 rounded-xl">
+                                <p class=" text-sm mt-2 yingcang">{{ item.uiElement.mainTitle.title }}</p>
                             </div>
-                        </div>
-
-                    </div>
+                        </van-swipe-item>
+                    </van-swipe>
                 </div>
             </div>
             <!-- 新歌新碟 -->
-            <div class="w-11/12 m-auto mt-10">
-                <div class="flex justify-between">
+            <div class=" w-screen m-auto mt-8">
+                <div class="flex justify-between px-3">
                     <div class="flex items-center">
                         <span class="font-bold">新歌新碟\数字专辑</span>
                         <icon icon="uiw:right"></icon>
@@ -97,35 +76,33 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class="w-full h-[266px]">
-                    <div class="swiper-container h-full rounded-2xl w-full">
-                        <div class="swiper-wrapper w-full">
-                            <ul v-for="n in newSong" :key="n.id" class="swiper-slide w-full h-full">
-                                <li v-for="(i, x) in n.resources" :key="i.id" class="w-[358px] h-20  mt-2 flex">
-                                    <div class="w-20 h-full ">
-                                        <img :src="i.uiElement.image.imageUrl" alt="" class=" w-full h-full rounded-xl">
-                                    </div>
-                                    <div class="h-full flex justify-center flex-col ml-2 w-72">
-                                        <p class=" font-bold mb-1">
-                                            {{ i.uiElement.mainTitle.title }}
-                                        </p>
-                                        <p class=" flex justify-between ">
-                                            <span class=" text-xs mr-4 rounded" :class="data[x][1]">{{ data[x][0] }}</span>
-                                            <span class=" text-xs yingcang w-[100px] h-4">{{ i.uiElement.subTitle.title
-                                            }}</span>
-                                            <span class=" text-xs w-3/12 yingcang">{{ i.resourceExtInfo.artists[0].name
-                                            }}</span>
-                                        </p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="  mt-3  overflow-hidden">
+                    <van-swipe class=" my-swipe w-screen">
+                        <van-swipe-item v-for="n in newSong" :key="n.id" class=" float-left flex kuan1 flex-col pl-2">
+                            <div v-for="(i, x) in n.resources" :key="i.id" class=" w-full h-[20vw]  mt-2 flex ">
+                                <div class="w-20 h-full ">
+                                    <img :src="i.uiElement.image.imageUrl" alt="" class=" w-full h-full rounded-xl">
+                                </div>
+                                <div class="h-full flex justify-center flex-col ml-2 w-72">
+                                    <p class=" font-bold mb-1">
+                                        {{ i.uiElement.mainTitle.title }}
+                                    </p>
+                                    <p class=" flex justify-between ">
+                                        <span class=" text-xs mr-4 rounded" :class="data[x][1]">{{ data[x][0] }}</span>
+                                        <span class=" text-xs yingcang w-[100px] h-4">{{ i.uiElement.subTitle.title
+                                        }}</span>
+                                        <span class=" text-xs w-3/12 yingcang">{{ i.resourceExtInfo.artists[0].name
+                                        }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </van-swipe-item>
+                    </van-swipe>
                 </div>
             </div>
             <!-- 排行榜 -->
-            <div class="w-11/12 m-auto mt-8 ">
-                <div class="flex justify-between">
+            <div class=" w-screen  mt-8  overflow-hidden">
+                <div class="flex justify-between px-3">
                     <div class="flex items-center">
                         <span class="font-bold">排行榜</span>
                         <icon icon="uiw:right"></icon>
@@ -134,48 +111,46 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class="w-full mt-3">
-                    <div class="swiper-container rounded-2xl h-[265px] ">
-                        <div class="swiper-wrapper h-full">
-                            <ul v-for="i in theCharts" :key="i.id"
-                                class="swiper-slide w-full h-full bg-white rounded-xl overflow-hidden dark:bg-[#0F0F0F] dark:text-[#fff]">
-                                <div class="w-full h-10  flex justify-between">
-                                    <div class="flex items-center">
-                                        <span class=" text-xs ml-2">{{ i.uiElement.mainTitle.title }}</span>
-                                        <icon icon="uiw:right"></icon>
-                                    </div>
-                                    <div class=" flex items-center">
-                                        <p class=" text-xs mr-2">{{ i.uiElement.mainTitle.titleDesc }}</p>
-                                    </div>
+                <div class=" w-screen mt-3 h-[70vw]">
+                    <van-swipe class=" my-swipe rounded-2xl h-[60vw] ">
+                        <van-swipe-item v-for="i in theCharts" :key="i.id"
+                            class="  kuan2 rounded-xl px-2 bg-white dark:bg-[#2E2E2E] dark:text-[#fff]"
+                            style="box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1)">
+                            <div class="w-full h-10  flex justify-between">
+                                <div class="flex items-center">
+                                    <span class=" text-xs ml-2">{{ i.uiElement.mainTitle.title }}</span>
+                                    <icon icon="uiw:right"></icon>
                                 </div>
-                                <li v-for="(nst, i) in i.resources" :key="nst.id" class="w-full h-16 mx-2 my-2">
-                                    <div class=" h-full w-16 float-left">
-                                        <img :src="nst.uiElement.image.imageUrl" alt="" class=" w-full h-full rounded-xl">
-                                    </div>
-                                    <div class="float-left w-72  h-full">
-                                        <div class=" w-full  h-full">
-                                            <div class=" w-2/12 float-left h-full flex items-center justify-center">
-                                                <span :class="SerialNumber[i][1]">
-                                                    {{ SerialNumber[i][0] }}
-                                                </span>
-                                            </div>
-                                            <div
-                                                class=" w-6/12 float-left h-full overflow-hidden flex justify-center flex-col">
-                                                <span class=" font-bold text-sm yingcang">{{
-                                                    nst.uiElement.mainTitle.title }}</span>
-                                                <span class=" text-xs">{{ nst.resourceExtInfo?.songData.artists[0].name
-                                                }}</span>
-                                            </div>
-                                            <div style="color: red;justify-content: flex-end;align-items: center;"
-                                                class=" text-sm w-3/12 float-left h-full flex">
-                                                <span>{{ nst.uiElement.labelText.text }}</span>
-                                            </div>
+                                <div class=" flex items-center">
+                                    <p class=" text-xs mr-2">{{ i.uiElement.mainTitle.titleDesc }}</p>
+                                </div>
+                            </div>
+                            <div v-for="(nst, i) in i.resources" :key="nst.id" class="w-full h-[16vw] mx-2 my-2">
+                                <div class=" w-[16vw] h-full  float-left">
+                                    <img :src="nst.uiElement.image.imageUrl" alt="" class=" w-[16vw] h-[16vw] rounded-xl">
+                                </div>
+                                <div class="float-left w-[70vw]  h-full">
+                                    <div class=" w-full  h-full">
+                                        <div class=" w-2/12 float-left h-full flex items-center justify-center">
+                                            <span :class="SerialNumber[i][1]">
+                                                {{ SerialNumber[i][0] }}
+                                            </span>
+                                        </div>
+                                        <div class=" w-6/12 float-left h-full overflow-hidden flex justify-center flex-col">
+                                            <span class=" font-bold text-sm yingcang">{{
+                                                nst.uiElement.mainTitle.title }}</span>
+                                            <span class=" text-xs">{{ nst.resourceExtInfo?.songData.artists[0].name
+                                            }}</span>
+                                        </div>
+                                        <div style="color: red;justify-content: flex-end;align-items: center;"
+                                            class=" text-sm w-3/12 float-left h-full flex">
+                                            <span>{{ nst.uiElement.labelText.text }}</span>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
+                        </van-swipe-item>
+                    </van-swipe>
                 </div>
             </div>
             <!-- 话题 -->
@@ -188,10 +163,9 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class=" w-full mt-3 h-[40vw]">
-                    <div class="swiper-container h-full w-[80vw]">
-                        <div class="swiper-wrapper h-full">
-                            <div v-for="(item, i) in subjectOfATalk" :key="item.id" class="swiper-slide   rounded-xl h-full"
+                <div class=" w-full mt-3 h-[40vw] ">
+                    <van-swipe class=" h-full w-[80vw]">
+                            <van-swipe-item v-for="(item, i) in subjectOfATalk" :key="item.id" class=" h-[40vw]   rounded-xl mr-3 "
                                 :class="Background[i]">
                                 <div class=" mt-3 ml-5 h-1/4">
                                     <p class=" text-xl text-white flex">
@@ -207,9 +181,8 @@
                                     <img :src="item.resources[0].uiElement.image.imageUrl" alt=""
                                         class=" w-[20vw] h-[20vw] rounded-xl">
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </van-swipe-item>
+                    </van-swipe>
                 </div>
             </div>
             <!-- 音乐日历 -->
@@ -217,7 +190,7 @@
                 <div class="flex justify-between">
                     <div class="flex items-center">
                         <span class="font-bold">音乐日历</span>
-                        <div class=" flex items-center ml-2 bg-slate-200 rounded-2xl ">
+                        <div class=" flex items-center ml-2 bg-slate-200 rounded-2xl " >
                             <span class=" text-xs px-1 py-1 rounded-xl">今日{{ calendar.length }}条</span>
                             <icon icon="uiw:right" class=" text-xs"></icon>
                         </div>
@@ -226,7 +199,7 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class=" w-full mt-4 bg-white rounded-2xl dark:bg-[#0F0F0F] dark:text-[#fff]">
+                <div class=" w-full mt-4 bg-white rounded-2xl dark:bg-[#2E2E2E] dark:text-[#fff]" style="box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1)">
                     <div v-for="(i, n) in calendar" :key="i.id" class=" flex justify-between">
                         <div class=" mt-5 ml-5">
                             <p class=" text-xs" style=" color: #b7b7b7;">
@@ -275,7 +248,7 @@
                 <div class=" w-11/12 h-[34vw] vip rounded-2xl pt-3 pl-3" style="margin: 0 auto">
                     <div class=" flex items-center mb-1">
                         <span class=" text-lg text-[#FDE6E0] font-bold mr-3">续费黑胶VIP</span>
-                        <div class=" w-16 h-3 bg-[#3E3936] rounded-xl">
+                        <div class=" w-[10vw] h-3 bg-[#3E3936] rounded-xl">
                             <div class=" w-4/6 h-full vipjdt rounded-xl"></div>
                         </div>
                         <span class=" text-xs text-[#8C817F] mr-3 ml-1">V4</span>
@@ -284,17 +257,17 @@
                     <div class=" text-xs text-[#948888] mb-5">
                         <p>礼品卡 | 毕业快乐</p>
                     </div>
-                    <div class=" pt-5 w-[272px] flex justify-between" style="border-top: 0.1px solid #948888;">
+                    <div class=" pt-3 w-[70vw] flex justify-between" style="border-top: 0.1px solid #948888;">
                         <p class=" text-xs text-[#948888]">受邀专享，黑胶VIP低至0.27元/天！</p>
                         <span
-                            class=" w-8 h-8 rounded text-center -mt-3 mr-5 text-xs bg-[#E94804] text-white font-bold">受邀专享</span>
+                            class=" w-[9vw] h-[9vw] rounded text-center -mt-2 mr-5 text-xs bg-[#E94804] text-white font-bold">受邀专享</span>
                     </div>
                 </div>
                 <div class=" w-full h-5 opacity-0"></div>
                 <div class=" w-11/12 pt-3 pl-3 rounded-2xl overflow-hidden bg-white dark:bg-[#383838] dark:text-white"
                     style="margin: 0 auto">
                     <ul class=" w-full">
-                        <li class=" h-[10vw] flex justify-between items-center" style="border-bottom: 1px solid #F2F2F2;">
+                        <li class=" h-[10vw] flex justify-between items-center" >
                             <div class=" flex items-center">
                                 <icon icon="uiw:mail-o"></icon>
                                 <span class=" text-base ml-2">我的消息</span>
@@ -303,7 +276,7 @@
                                 <icon icon="uiw:right"></icon>
                             </div>
                         </li>
-                        <li class=" h-[10vw] flex justify-between items-center" style="border-bottom: 1px solid #F2F2F2;">
+                        <li class=" h-[10vw] flex justify-between items-center" >
                             <div class=" flex items-center">
                                 <icon icon="solar:cloud-outline"></icon>
                                 <span class=" text-base ml-2">云贝中心</span>
@@ -326,11 +299,11 @@
                 <div class=" w-full h-5 opacity-0"></div>
                 <div class=" w-11/12 pt-3 pl-3 rounded-2xl overflow-hidden bg-white dark:bg-[#383838] dark:text-white"
                     style="margin: 0 auto">
-                    <div class=" pb-2" style="border-bottom: 1px solid #F2F2F2;">
+                    <div class=" pb-2" >
                         <span class=" text-xs text-[#AAAAAA]">音乐服务</span>
                     </div>
                     <ul class=" w-full mt-2">
-                        <li class=" h-[10vw] flex justify-between items-center" style="border-bottom: 1px solid #F2F2F2;">
+                        <li class=" h-[10vw] flex justify-between items-center" >
                             <div class=" flex items-center">
                                 <icon icon="emojione-monotone:dotted-six-pointed-star"></icon>
                                 <span class=" text-base ml-2">测趣</span>
@@ -340,7 +313,7 @@
                                 <icon icon="uiw:right"></icon>
                             </div>
                         </li>
-                        <li class=" h-[10vw] flex justify-between items-center" style="border-bottom: 1px solid #F2F2F2;">
+                        <li class=" h-[10vw] flex justify-between items-center" >
                             <div class=" flex items-center">
                                 <icon icon="ep:ice-cream-round"></icon>
                                 <span class=" text-base ml-2">云村有票</span>
@@ -401,11 +374,11 @@
                 <div class=" w-full h-5 opacity-0"></div>
                 <div class=" w-11/12 pt-3 pl-3 rounded-2xl overflow-hidden bg-white dark:bg-[#383838] dark:text-white"
                     style="margin: 0 auto">
-                    <div class=" pb-2" style="border-bottom: 1px solid #F2F2F2;">
+                    <div class=" pb-2" >
                         <span class=" text-xs text-[#AAAAAA]">其他</span>
                     </div>
                     <ul class=" w-full mt-2">
-                        <li class=" h-[10vw] flex justify-between items-center" style="border-bottom: 1px solid #F2F2F2;">
+                        <li class=" h-[10vw] flex justify-between items-center" >
                             <div class=" flex items-center">
                                 <icon icon="ph:nut"></icon>
                                 <span class=" text-base ml-2">设置</span>
@@ -415,7 +388,7 @@
                                 <icon icon="uiw:right"></icon>
                             </div>
                         </li>
-                        <li class=" h-[10vw] flex justify-between items-center" style="border-bottom: 1px solid #F2F2F2;">
+                        <li class=" h-[10vw] flex justify-between items-center" >
                             <div class=" flex items-center">
                                 <icon icon="ph:moon-light"></icon>
                                 <span class=" text-base ml-2">深色模式</span>
@@ -515,7 +488,7 @@ export default {
     data() {
         //响应式数据
         return {
-            switchCheckStatus:false,
+            switchCheckStatus: false,
             drawerSidebar: false,
             drawerVisible: false,
             visible: true,
@@ -645,6 +618,27 @@ export default {
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+.kuan {
+    width: 90vw !important;
+    margin: 0 5vw;
+}
+
+.kuan1 {
+    width: 100vw !important;
+}
+
+.kuan2 {
+    width: 96vw !important;
+    margin: 0 2vw;
+}
+
+.van-swipe__track {
+    display: flex;
+
+}
+
+
 .yingcang {
     -webkit-line-clamp: 1;
     display: -webkit-box;
