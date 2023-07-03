@@ -642,6 +642,10 @@ export default {
 };
 </script>
 <style>
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
 .yingcang {
     -webkit-line-clamp: 1;
     display: -webkit-box;
