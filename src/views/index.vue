@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen overflow-hidden " :class="{ dark: switchCheckStatus }">
+    <div class="w-screen overflow-hidden bg-[#FAFAFA] " :class="{ dark: switchCheckStatus }">
         <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#0F0F0F] dark:text-[#fff]">
             <!-- 头部 -->
             <div class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20 bg-white jbs">
