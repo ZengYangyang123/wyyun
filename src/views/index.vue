@@ -2,7 +2,8 @@
     <div class="w-screen overflow-hidden bg-[#FAFAFA] " :class="{ dark: switchCheckStatus }">
         <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#212121] dark:text-[#fff]">
             <!-- 头部 -->
-            <div class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
+            <div
+                class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
                 <div @click="drawerSidebar = !drawerSidebar; updateOverflow()">
                     <Icon icon="prime:bars" class="text-4xl"></Icon>
                 </div>
@@ -16,7 +17,7 @@
                 <Icon icon="ep:microphone" class="text-2xl"></Icon>
             </div>
             <!-- 轮播 -->
-            <div class=" h-[39vw] mt-[26vw] overflow-hidden">
+            <div class=" h-[39vw] mt-[20vw] overflow-hidden">
                 <van-swipe class="my-swipe h-[39vw]  w-[100vw]" :autoplay="3000">
                     <van-swipe-item v-for="item in menu" :key="item.id"
                         class=" h-[39vw]  float-left rounded-2xl flex kuan overflow-hidden bg-[pink] ">
@@ -25,18 +26,16 @@
                 </van-swipe>
             </div>
             <!-- 菜单 -->
-            <div class="w-11/12 m-auto mt-8 h-20">
-                <!-- <van-swipe class=" w-full h-full overflow-hidden">
-                    <van-swipe-item class=" float-left" v-for="(i, x) in 2" :key="i.id">
-                        <ul class="w-full h-16 flex justify-between">
-                            <li class="w-2/12 h-full text-sm flex flex-col items-center justify-center"
-                                v-for="(n, index) in 5" :key="n.id">
-                                <Icon :icon="MenuButton[x][index][0]" style="color: red" class="text-4xl"></Icon>
-                                <span>{{ MenuButton[x][index][1] }}</span>
-                            </li>
-                        </ul>
+            <div class=" mt-8 h-[28vw]  overflow-hidden">
+                <van-swipe class=" w-screen h-[28vw] my-swipe">
+                    <van-swipe-item class=" float-left flex  h-[28vw] mx-2 flex-col items-center" v-for="(i,index) in menus" :key="i.id" style="width: 16vw !important;">
+                        <div class=" relative">
+                            <img :src="i.iconUrl" alt="" class="red-image">
+                            <span v-if="index === 0" class=" absolute top-[50%] translate-y-[-40%] left-[50%] translate-x-[-50%] text-[#fff]">{{ currentDate2 }}</span>
+                        </div>
+                        <span class=" text-sm">{{ i.name }}</span>
                     </van-swipe-item>
-                </van-swipe> -->
+                </van-swipe>
             </div>
             <!-- 推荐歌单 -->
             <div class=" w-screen mt-8">
@@ -51,6 +50,26 @@
                 </div>
                 <div class=" w-[100vw] h-[46vw]  overflow-hidden mt-2 pl-3">
                     <van-swipe class=" my-swipe w-[36vw] h-full float-left">
+                        <van-swipe-item class="  h-[46vw]  flex mr-2 ">
+                            <div class='w-[32vw] relative'>
+                                <div class='w-[34vw] h-[32vw] overflow-hidden'>
+                                    <transition name="abc" v-for="(item, index) in songSheet" :key="item.id">
+                                        <div v-if="visiblesss === index" class="">
+                                            <img :src="item.uiElement.image.imageUrl" alt=""
+                                                class=" w-[32vw] h-[32vw] rounded-xl">
+                                            <div
+                                                class="absolute top-[2vw] right-[2.5vw] font-[800] text-[#fff] flex items-center">
+                                            </div>
+                                        </div>
+                                    </transition>
+                                </div>
+                                <p class=' text-[#4d505e]  absolute z-40 h-[5vw] line-clamp-2 text-[3vw] yingcang mt-2'>{{
+                                    resourceData || (songSheet[0]?.uiElement?.mainTitle.title) }}</p>
+                                <Icon icon="ion:infinite" color=" white" class=" absolute top-0 right-3 text-2xl" />
+                            </div>
+                        </van-swipe-item>
+
+
                         <van-swipe-item v-for="item in songSheet" :key="item.id"
                             class="  relative   h-[46vw] float-left  flex mr-2">
                             <div class=" w-full h-full absolute z-10">
@@ -58,7 +77,7 @@
                                     <icon icon="uiw:caret-right"></icon>
                                     <span>{{ Math.round(item.resources[0].resourceExtInfo.playCount / 10000) }}万</span>
                                 </div>
-                                <img :src="item.uiElement.image.imageUrl" alt="" class=" w-full h-32 rounded-xl">
+                                <img :src="item.uiElement.image.imageUrl" alt="" class=" w-[32vw] h-[32vw] rounded-xl">
                                 <p class=" text-sm mt-2 yingcang">{{ item.uiElement.mainTitle.title }}</p>
                             </div>
                         </van-swipe-item>
@@ -154,7 +173,7 @@
                 </div>
             </div>
             <!-- 话题 -->
-            <div class="w-11/12 m-auto mt-8">
+            <div class="w-11/12 m-auto mt-8 overflow-hidden">
                 <div class="flex justify-between">
                     <div class="flex items-center">
                         <span class="font-bold">热门话题</span>
@@ -165,23 +184,23 @@
                 </div>
                 <div class=" w-full mt-3 h-[40vw] ">
                     <van-swipe class=" h-full w-[80vw]">
-                            <van-swipe-item v-for="(item, i) in subjectOfATalk" :key="item.id" class=" h-[40vw]   rounded-xl mr-3 "
-                                :class="Background[i]">
-                                <div class=" mt-3 ml-5 h-1/4">
-                                    <p class=" text-xl text-white flex">
-                                        <Icon icon="mingcute:kakao-talk-fill" color="white" class=" text-2xl" />
-                                        <span class=" yingcang">{{ item.resources[2].uiElement.mainTitle.title }}</span>
-                                    </p>
-                                    <p class=" text-xs" style="color: #ccc;">{{ item.resources[0].uiElement.subTitle?.title
-                                    }}
-                                    </p>
-                                </div>
-                                <div class="flex mx-2 my-2 justify-around h-3/4">
-                                    <p class=" text-xs w-7/12 mr-3" style="color: #ededed;">{{ Copywriting[i] }}</p>
-                                    <img :src="item.resources[0].uiElement.image.imageUrl" alt=""
-                                        class=" w-[20vw] h-[20vw] rounded-xl">
-                                </div>
-                            </van-swipe-item>
+                        <van-swipe-item v-for="(item, i) in subjectOfATalk" :key="item.id"
+                            class=" h-[40vw]   rounded-xl mr-3 " :class="Background[i]">
+                            <div class=" mt-3 ml-5 h-1/4">
+                                <p class=" text-xl text-white flex">
+                                    <Icon icon="mingcute:kakao-talk-fill" color="white" class=" text-2xl" />
+                                    <span class=" yingcang">{{ item.resources[2].uiElement.mainTitle.title }}</span>
+                                </p>
+                                <p class=" text-xs" style="color: #ccc;">{{ item.resources[0].uiElement.subTitle?.title
+                                }}
+                                </p>
+                            </div>
+                            <div class="flex mx-2 my-2 justify-around h-3/4">
+                                <p class=" text-xs w-7/12 mr-3" style="color: #ededed;">{{ Copywriting[i] }}</p>
+                                <img :src="item.resources[0].uiElement.image.imageUrl" alt=""
+                                    class=" w-[20vw] h-[20vw] rounded-xl">
+                            </div>
+                        </van-swipe-item>
                     </van-swipe>
                 </div>
             </div>
@@ -190,7 +209,7 @@
                 <div class="flex justify-between">
                     <div class="flex items-center">
                         <span class="font-bold">音乐日历</span>
-                        <div class=" flex items-center ml-2 bg-slate-200 rounded-2xl " >
+                        <div class=" flex items-center ml-2 bg-slate-200 rounded-2xl ">
                             <span class=" text-xs px-1 py-1 rounded-xl">今日{{ calendar.length }}条</span>
                             <icon icon="uiw:right" class=" text-xs"></icon>
                         </div>
@@ -199,7 +218,8 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class=" w-full mt-4 bg-white rounded-2xl dark:bg-[#2E2E2E] dark:text-[#fff]" style="box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1)">
+                <div class=" w-full mt-4 bg-white rounded-2xl dark:bg-[#2E2E2E] dark:text-[#fff]"
+                    style="box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1)">
                     <div v-for="(i, n) in calendar" :key="i.id" class=" flex justify-between">
                         <div class=" mt-5 ml-5">
                             <p class=" text-xs" style=" color: #b7b7b7;">
@@ -267,7 +287,7 @@
                 <div class=" w-11/12 pt-3 pl-3 rounded-2xl overflow-hidden bg-white dark:bg-[#383838] dark:text-white"
                     style="margin: 0 auto">
                     <ul class=" w-full">
-                        <li class=" h-[10vw] flex justify-between items-center" >
+                        <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
                                 <icon icon="uiw:mail-o"></icon>
                                 <span class=" text-base ml-2">我的消息</span>
@@ -276,7 +296,7 @@
                                 <icon icon="uiw:right"></icon>
                             </div>
                         </li>
-                        <li class=" h-[10vw] flex justify-between items-center" >
+                        <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
                                 <icon icon="solar:cloud-outline"></icon>
                                 <span class=" text-base ml-2">云贝中心</span>
@@ -299,11 +319,11 @@
                 <div class=" w-full h-5 opacity-0"></div>
                 <div class=" w-11/12 pt-3 pl-3 rounded-2xl overflow-hidden bg-white dark:bg-[#383838] dark:text-white"
                     style="margin: 0 auto">
-                    <div class=" pb-2" >
+                    <div class=" pb-2">
                         <span class=" text-xs text-[#AAAAAA]">音乐服务</span>
                     </div>
                     <ul class=" w-full mt-2">
-                        <li class=" h-[10vw] flex justify-between items-center" >
+                        <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
                                 <icon icon="emojione-monotone:dotted-six-pointed-star"></icon>
                                 <span class=" text-base ml-2">测趣</span>
@@ -313,7 +333,7 @@
                                 <icon icon="uiw:right"></icon>
                             </div>
                         </li>
-                        <li class=" h-[10vw] flex justify-between items-center" >
+                        <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
                                 <icon icon="ep:ice-cream-round"></icon>
                                 <span class=" text-base ml-2">云村有票</span>
@@ -374,11 +394,11 @@
                 <div class=" w-full h-5 opacity-0"></div>
                 <div class=" w-11/12 pt-3 pl-3 rounded-2xl overflow-hidden bg-white dark:bg-[#383838] dark:text-white"
                     style="margin: 0 auto">
-                    <div class=" pb-2" >
+                    <div class=" pb-2">
                         <span class=" text-xs text-[#AAAAAA]">其他</span>
                     </div>
                     <ul class=" w-full mt-2">
-                        <li class=" h-[10vw] flex justify-between items-center" >
+                        <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
                                 <icon icon="ph:nut"></icon>
                                 <span class=" text-base ml-2">设置</span>
@@ -388,14 +408,12 @@
                                 <icon icon="uiw:right"></icon>
                             </div>
                         </li>
-                        <li class=" h-[10vw] flex justify-between items-center" >
+                        <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
                                 <icon icon="ph:moon-light"></icon>
                                 <span class=" text-base ml-2">深色模式</span>
                             </div>
-                            <div class=" mr-4">
-                                <v-switch :value.sync="switchCheckStatus" />
-                            </div>
+                            <v-switch :value="switchCheckStatus" @input="(e) => (switchCheckStatus = e)" />
                         </li>
                         <li class=" h-[10vw] flex justify-between items-center">
                             <div class=" flex items-center">
@@ -480,7 +498,7 @@
 </template>
 <script>
 import axios from 'axios';
-import Swiper from 'swiper';
+// import Swiper from 'swiper';
 import '../../node_modules/swiper/swiper.css';
 import { Icon } from '@iconify/vue2';
 
@@ -488,6 +506,9 @@ export default {
     data() {
         //响应式数据
         return {
+            menus: [],
+            resourceData: '',
+            visiblesss: 0,
             switchCheckStatus: false,
             drawerSidebar: false,
             drawerVisible: false,
@@ -513,6 +534,7 @@ export default {
             ],
             calendar: [],
             currentDate: '',
+            currentDate2:'',
             style: [
                 'red', 'blue'
             ],
@@ -521,22 +543,6 @@ export default {
                 ['Hi-Res', 'huang'],
                 ['HQ', 'lan']
             ],
-            MenuButton: [
-                [
-                    ['dashicons:calendar', '每日推荐'],
-                    ['solar:radio-bold', '私人漫游'],
-                    ['solar:book-bold', '歌单'],
-                    ['icon-park-solid:ranking-list', '排行榜'],
-                    ['mdi:audiobook', '有声书']
-                ],
-                [
-                    ['ic:round-duo', '直播'],
-                    ['icon-park-solid:people', '关注新歌'],
-                    ['icon-park-solid:poker', '一歌一遇'],
-                    ['ri:auction-fill', '收藏家'],
-                    ['mingcute:game-2-fill', '游戏专区']
-                ]
-            ],
 
 
             swiper: null,
@@ -544,24 +550,12 @@ export default {
             swiper3: null,
         };
     },
-    methods: {
-        //交互操作，响应事件函数
-        // fn(e) {
-        //     this.drawerVisible = e
-        // }
-        updateOverflow() {
-            const body = document.querySelector('.zhuye');
-            // console.log(body)
-            // console.log(this.drawerVisible)
-            body.setAttribute('style', `overflow: ${this.drawerSidebar ? ' scroll' : ' hidden'}`);
 
-        },
-    },
     created() {
         //生命周期钩子函数
         axios.get('https://netease-cloud-music-c2c1ys55f-cc-0820.vercel.app/homepage/block/page')
             .then((res) => {
-                // console.log(res.data.data.blocks[5].creatives.resources[0]);
+                // console.log(res.data.data.blocks[1]);
                 this.menu = res.data.data.blocks[0].extInfo.banners;
                 this.songSheet = res.data.data.blocks[1].creatives;
                 this.newSong = res.data.data.blocks[5].creatives;
@@ -571,6 +565,7 @@ export default {
                 this.swiper.updata();
                 this.swiper2.updata();
                 this.swiper3.updata();
+                
             })
             .catch((err) => {
                 console.log(err);
@@ -585,28 +580,43 @@ export default {
                 console.log(err)
             })
         this.currentDate = new Date().toLocaleDateString().slice(5);
+        this.currentDate2 = new Date().toLocaleDateString().slice(7);
+        axios
+            .get(
+                'https://netease-cloud-music-api-five-roan-88.vercel.app/homepage/dragon/ball'
+            )
+            .then((res) => {
+                this.menus = res.data.data;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    },
+    methods: {
+        //交互操作，响应事件函数
+        // fn(e) {
+        //     this.drawerVisible = e
+        // }
+        updateOverflow() {
+            const body = document.querySelector('.zhuye');
+            // console.log(body)
+            // console.log(this.drawerVisible)
+            body.setAttribute('style', `overflow: ${this.drawerSidebar ? ' scroll' : ' hidden'}`);
+
+        },
+        animateItems() {
+            setInterval(() => {
+                this.visiblesss++;
+                if (this.visiblesss === this.songSheet.length) {
+
+                    this.visiblesss = 0;
+                }
+                this.resourceData = this.songSheet[this.visiblesss].uiElement.mainTitle.title
+            }, 3000);
+        },
     },
     mounted() {
-        this.swiper = new Swiper('.swiper-container', {
-            paginationClickable: true,
-            touchMoveStopPropagation: false,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            spaceBetween: 30,
-            centeredSlides: true,
-            autoplay: 2500,
-            autoplayDisableOnInteraction: false,
-        });
-        this.swiper2 = new Swiper('.swiper-container2', {
-            paginationClickable: true,
-            touchMoveStopPropagation: false,
-        });
-        this.swiper3 = new Swiper('.swiper-container3', {
-            paginationClickable: true,
-            touchMoveStopPropagation: false,
-        });
+        this.animateItems()
     },
     components: {
         Icon,
@@ -632,6 +642,7 @@ export default {
     width: 96vw !important;
     margin: 0 2vw;
 }
+
 
 .van-swipe__track {
     display: flex;
@@ -733,5 +744,36 @@ export default {
 .vipjdt {
     background: rgb(230, 203, 196);
     background: linear-gradient(90deg, rgba(230, 203, 196, 1) 72%, rgba(255, 255, 255, 1) 100%);
+}
+
+.abc-leave {
+    transform: translateY(100%) scale(1);
+}
+
+.abc-leave-active {
+    transition: all ease-in-out .6s;
+}
+
+.abc-leave-to {
+    transform: translateY(-100%) scale(.7);
+}
+
+
+.abc-enter {
+    opacity: 0;
+    transform: translateY(100%) scale(.7);
+}
+
+.abc-enter-active {
+    transition: all ease-in-out .6s;
+}
+
+.abc-enter-to {
+    opacity: 1;
+    transform: translateY(-100%) scale(1);
+}
+
+.red-image {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
 }
 </style>

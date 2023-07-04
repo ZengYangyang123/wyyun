@@ -1,24 +1,30 @@
 import Vue from 'vue';
 import { Icon } from '@iconify/vue2';
-import indexView from '@/views/index.vue';
-Vue.component('Icon', Icon);
-
-import Drawer from '@/components/Drawer/Drawer.vue'
-Vue.component('Drawer',Drawer)
-
-import Sidebar from '@/components/Sidebar/Sidebar.vue'
-Vue.component('Sidebar',Sidebar)
-
-import Switch from "@/components/Switch/Switch.vue"
-Vue.component('v-switch',Switch)
-
+import App from '@/App.vue';
+import router from '@/router';
+import Drawer from '@/components/Drawer';
+import Switch from '@/components/Switch';
+import Sidebar from '@/components/Sidebar';
 import { Swipe, SwipeItem } from 'vant';
-
+Vue.use(Switch);
+Vue.component('Icon', Icon);
+Vue.use(Drawer);
+Vue.use(Sidebar)
 Vue.use(Swipe);
 Vue.use(SwipeItem);
+new Vue({
+  el: '#app',
+  router,
+  // store,
+  components: { App },
+  template: '<App/>',
+});
 
-const vm = new Vue({
-	el: '#app',
-	render:(h) => h(indexView),
-})
 
+// import Vuex from '@/vuex'
+// Vue.use(Vuex)
+// const store = new Vuex.Store({
+//   state: {
+//     const:123
+//   }
+// })

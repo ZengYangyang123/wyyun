@@ -1,17 +1,18 @@
-import IndexView from '@/views/index.vue'
-import SearchFor from '../views/searchFor.vue'
-
+import IndexView from '../views/Index.vue';
+import SearchFor from '../views/SearchFor.vue';
 export default [
-    {
-        path:'/',
-        redirect:'/IndexView'
-    },
-    {
-        path: '/IndexView',
-        component: IndexView,
-    },
-    {
-        path:'/SearchFor',
-        component: SearchFor,
-    }
-]
+  // 路径重定向
+  {
+    path: '/',
+    redirect: '/IndexView',
+  },
+  {
+    path: '/IndexView',
+    component: IndexView,
+  },
+  {
+    path: '/SearchFor',
+    component: SearchFor,
+  },
+
+];
