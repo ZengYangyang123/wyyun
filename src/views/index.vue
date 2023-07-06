@@ -3,21 +3,27 @@
         <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#212121] dark:text-[#fff]">
             <!-- 头部 -->
             <div
-                class=" w-screen  flex justify-between items-center pt-5 pb-4 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
+                class=" w-screen  flex justify-between items-center py-5 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
                 <div @click="drawerSidebar = !drawerSidebar; updateOverflow()">
                     <Icon icon="prime:bars" class="text-4xl"></Icon>
                 </div>
                 <div class="relative w-8/12 h-full flex items-center">
+
                     <div class="w-full h-10 rounded-3xl pl-9 jbs1 relative">
-                        <input type="text" placeholder="张杰" class="w-full h-10 rounded-3xl pl-9 absolute left-0 jbs2" />
+                        <router-link :to="{ path: '/SearchFor' }">
+                            <input type="text" placeholder="张杰" class="w-full h-10 rounded-3xl pl-9 absolute left-0 jbs2" />
+                        </router-link>
                     </div>
+
                     <Icon icon="prime:search" class="text-2xl absolute top-2 left-2" color="#737373"></Icon>
+
                     <Icon icon="tabler:scan" class="text-2xl absolute right-2 top-2" color="#737373"></Icon>
+
                 </div>
                 <Icon icon="ep:microphone" class="text-2xl"></Icon>
             </div>
             <!-- 轮播 -->
-            <div class=" h-[39vw] mt-[20vw] overflow-hidden">
+            <div class=" h-[39vw] mt-[26vw] overflow-hidden">
                 <van-swipe class="my-swipe h-[39vw]  w-[100vw]" :autoplay="3000">
                     <van-swipe-item v-for="item in menu" :key="item.id"
                         class=" h-[39vw]  float-left rounded-2xl flex kuan overflow-hidden bg-[pink] ">
@@ -28,17 +34,20 @@
             <!-- 菜单 -->
             <div class=" mt-8 h-[28vw]  overflow-hidden">
                 <van-swipe class=" w-screen h-[28vw] my-swipe">
-                    <van-swipe-item class=" float-left flex  h-[28vw] mx-2 flex-col items-center" v-for="(i,index) in menus" :key="i.id" style="width: 16vw !important;">
+                    <van-swipe-item class=" float-left flex  h-[28vw] mx-2 flex-col items-center"
+                        v-for="(i, index) in menus" :key="i.id" style="width: 16vw !important;">
                         <div class=" relative">
                             <img :src="i.iconUrl" alt="" class="red-image">
-                            <span v-if="index === 0" class=" absolute top-[50%] translate-y-[-40%] left-[50%] translate-x-[-50%] text-[#fff]">{{ currentDate2 }}</span>
+                            <span v-if="index === 0"
+                                class=" absolute top-[50%] translate-y-[-40%] left-[50%] translate-x-[-50%] text-[#fff]">{{
+                                    currentDate2 }}</span>
                         </div>
                         <span class=" text-sm">{{ i.name }}</span>
                     </van-swipe-item>
                 </van-swipe>
             </div>
             <!-- 推荐歌单 -->
-            <div class=" w-screen mt-8">
+            <div class=" w-screen mt-8" >
                 <div class="flex justify-between px-4">
                     <div class="flex items-center">
                         <span class="font-bold">推荐歌单</span>
@@ -63,29 +72,31 @@
                                         </div>
                                     </transition>
                                 </div>
-                                <p class=' text-[#4d505e]  absolute z-40 h-[5vw] line-clamp-2 text-[3vw] yingcang mt-2'>{{
+                                <p class=' text-[#4d505e]  absolute z-40 h-[5vw] line-clamp-2 text-sm yingcang mt-2'>{{
                                     resourceData || (songSheet[0]?.uiElement?.mainTitle.title) }}</p>
                                 <Icon icon="ion:infinite" color=" white" class=" absolute top-0 right-3 text-2xl" />
                             </div>
                         </van-swipe-item>
 
 
-                        <van-swipe-item v-for="item in songSheet" :key="item.id"
+                        <van-swipe-item v-for="(item,i) in songSheet" :key="item.id"
                             class="  relative   h-[46vw] float-left  flex mr-2">
-                            <div class=" w-full h-full absolute z-10">
-                                <div class=" flex items-center absolute right-2 text-white">
-                                    <icon icon="uiw:caret-right"></icon>
-                                    <span>{{ Math.round(item.resources[0].resourceExtInfo.playCount / 10000) }}万</span>
+                            <router-link :to="{ path: `/Refresh/${id[i]}` }">
+                                <div class=" w-full h-full absolute z-10">
+                                    <div class=" flex items-center absolute right-2 text-white">
+                                        <icon icon="uiw:caret-right"></icon>
+                                        <span>{{ Math.round(item.resources[0].resourceExtInfo.playCount / 10000) }}万</span>
+                                    </div>
+                                    <img :src="item.uiElement.image.imageUrl" alt="" class=" w-[32vw] h-[32vw] rounded-xl">
+                                    <p class=" text-sm mt-2 yingcang">{{ item.uiElement.mainTitle.title }}</p>
                                 </div>
-                                <img :src="item.uiElement.image.imageUrl" alt="" class=" w-[32vw] h-[32vw] rounded-xl">
-                                <p class=" text-sm mt-2 yingcang">{{ item.uiElement.mainTitle.title }}</p>
-                            </div>
+                            </router-link>
                         </van-swipe-item>
                     </van-swipe>
                 </div>
             </div>
             <!-- 新歌新碟 -->
-            <div class=" w-screen m-auto mt-8">
+            <div class=" w-screen m-auto mt-8" >
                 <div class="flex justify-between px-3">
                     <div class="flex items-center">
                         <span class="font-bold">新歌新碟\数字专辑</span>
@@ -95,18 +106,19 @@
                         <icon icon="prime:ellipsis-v"></icon>
                     </div>
                 </div>
-                <div class="  mt-3  overflow-hidden">
+                <div class="  mt-[1vw]  overflow-hidden h-[70vw]">
                     <van-swipe class=" my-swipe w-screen">
-                        <van-swipe-item v-for="n in newSong" :key="n.id" class=" float-left flex kuan1 flex-col pl-2">
-                            <div v-for="(i, x) in n.resources" :key="i.id" class=" w-full h-[20vw]  mt-2 flex ">
-                                <div class="w-20 h-full ">
+                        <van-swipe-item v-for="n in newSong" :key="n.id"
+                            class=" float-left flex kuan1 flex-col pl-2 w-full">
+                            <div v-for="(i, x) in n.resources" :key="i.id" class=" w-screen h-[20vw]  mt-2 flex ">
+                                <div class="w-[20vw] h-full ">
                                     <img :src="i.uiElement.image.imageUrl" alt="" class=" w-full h-full rounded-xl">
                                 </div>
-                                <div class="h-full flex justify-center flex-col ml-2 w-72">
-                                    <p class=" font-bold mb-1">
+                                <div class="h-full flex  flex-col ml-2 w-[70vw]">
+                                    <p class=" font-bold py-3">
                                         {{ i.uiElement.mainTitle.title }}
                                     </p>
-                                    <p class=" flex justify-between ">
+                                    <p class=" flex justify-between">
                                         <span class=" text-xs mr-4 rounded" :class="data[x][1]">{{ data[x][0] }}</span>
                                         <span class=" text-xs yingcang w-[100px] h-4">{{ i.uiElement.subTitle.title
                                         }}</span>
@@ -155,8 +167,8 @@
                                                 {{ SerialNumber[i][0] }}
                                             </span>
                                         </div>
-                                        <div class=" w-6/12 float-left h-full overflow-hidden flex justify-center flex-col">
-                                            <span class=" font-bold text-sm yingcang">{{
+                                        <div class=" w-6/12 float-left h-full overflow-hidden flex  flex-col">
+                                            <span class=" font-bold text-sm yingcang py-4">{{
                                                 nst.uiElement.mainTitle.title }}</span>
                                             <span class=" text-xs">{{ nst.resourceExtInfo?.songData.artists[0].name
                                             }}</span>
@@ -221,7 +233,7 @@
                 <div class=" w-full mt-4 bg-white rounded-2xl dark:bg-[#2E2E2E] dark:text-[#fff]"
                     style="box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1)">
                     <div v-for="(i, n) in calendar" :key="i.id" class=" flex justify-between">
-                        <div class=" mt-5 ml-5">
+                        <div class=" mt-5 ml-5 w-[56vw]">
                             <p class=" text-xs" style=" color: #b7b7b7;">
                                 今天
                                 <span class=" text-base" style=" color: #b7b7b7;">
@@ -229,10 +241,9 @@
                                 </span>
                                 <span class=" text-xs" :class="style[n]">{{ i.tag }}</span>
                             </p>
-                            <p class=" text-base font-bold">{{ i.title }}</p>
+                            <p class=" text-base ">{{ i.title }}</p>
                         </div>
                         <img :src="i.imgUrl" alt="" class=" my-5 mr-5 rounded-xl w-20 h-20">
-
                     </div>
                     <div></div>
                 </div>
@@ -498,11 +509,12 @@
 </template>
 <script>
 import axios from 'axios';
-// import Swiper from 'swiper';
 import '../../node_modules/swiper/swiper.css';
 import { Icon } from '@iconify/vue2';
 
+
 export default {
+    
     data() {
         //响应式数据
         return {
@@ -534,7 +546,7 @@ export default {
             ],
             calendar: [],
             currentDate: '',
-            currentDate2:'',
+            currentDate2: '',
             style: [
                 'red', 'blue'
             ],
@@ -543,29 +555,23 @@ export default {
                 ['Hi-Res', 'huang'],
                 ['HQ', 'lan']
             ],
-
-
-            swiper: null,
-            swiper2: null,
-            swiper3: null,
+            id: []
         };
     },
 
-    created() {
+    async created() {
         //生命周期钩子函数
         axios.get('https://netease-cloud-music-c2c1ys55f-cc-0820.vercel.app/homepage/block/page')
             .then((res) => {
-                // console.log(res.data.data.blocks[1]);
+                console.log(res.data.data.blocks);
                 this.menu = res.data.data.blocks[0].extInfo.banners;
                 this.songSheet = res.data.data.blocks[1].creatives;
                 this.newSong = res.data.data.blocks[5].creatives;
                 this.theCharts = res.data.data.blocks[3].creatives;
                 this.subjectOfATalk = res.data.data.blocks[2].creatives;
-
-                this.swiper.updata();
-                this.swiper2.updata();
-                this.swiper3.updata();
                 
+                this.changeID()
+
             })
             .catch((err) => {
                 console.log(err);
@@ -573,7 +579,7 @@ export default {
         axios
             .get('https://netease-cloud-music-api-five-roan-88.vercel.app/calendar?startTime=1677417600000&endTime=1677417600000')
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 this.calendar = res.data.data.calendarEvents;
             })
             .catch((err) => {
@@ -611,8 +617,15 @@ export default {
 
                     this.visiblesss = 0;
                 }
-                this.resourceData = this.songSheet[this.visiblesss].uiElement.mainTitle.title
+                this.resourceData = this.songSheet[this.visiblesss].uiElement?.mainTitle.title
             }, 3000);
+        },
+        changeID() {
+            this.id = []
+            for (let i = 0; i < this.songSheet.length; i++) {
+                this.id.push(parseInt(this.songSheet[i].creativeId))
+            }
+            console.log(this.id)
         },
     },
     mounted() {
@@ -774,6 +787,6 @@ export default {
 }
 
 .red-image {
-  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
+    filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
 }
 </style>
