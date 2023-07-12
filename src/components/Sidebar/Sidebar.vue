@@ -1,19 +1,22 @@
 <template>
-    <div @click="clickHandler" class=" fixed bottom-0 z-30 " :class="{dark:switchVant}">
+    <div @click="clickHandler" class=" fixed bottom-0 z-30 " :class="{ dark: switchVant }">
         <div class=" w-screen h-screen bg-black opacity-40 z-40 " ref="drawerMask" v-if="visible"></div>
         <transition name="slide">
-            <div v-show="visible" class=" w-10/12 h-screen bg-[#F5F5F5] text-black dark:text-white dark:bg-[#212121]  absolute left-0 bottom-0 z-50 "
+            <div v-show="visible"
+                class=" w-10/12 h-screen bg-[#F5F5F5] text-black dark:text-white dark:bg-[#212121]  absolute left-0 bottom-0 z-50 "
                 style="overflow-y: scroll;">
                 <div>
                     <slot name="headerTwo">
                         <div class=" flex justify-between  mt-5 text-xl items-center mb-4">
-                            <div class=" flex items-center pl-5">
-                                <div class=" w-10 h-10 bg-black rounded-3xl mr-4">
-                                    <img src="" alt="">
+                            <router-link :to="{ path: '/JSX' }">
+                                <div class=" flex items-center pl-5">
+                                    <div class=" w-[8vw] h-[8vw] bg-black rounded-3xl mr-4 overflow-hidden">
+                                        <img :src="avatarUrl" alt="" class=" w-full h-full">
+                                    </div>
+                                    <span class=" text-sm">{{ nickname }}</span>
+                                    <icon icon="uiw:right" class=" text-base"></icon>
                                 </div>
-                                <span>583账户</span>
-                                <icon icon="uiw:right"></icon>
-                            </div>
+                            </router-link>
                             <div class=" pr-5">
                                 <Icon icon="teenyicons:scan-outline" />
                             </div>
@@ -28,7 +31,14 @@
     </div>
 </template>
 <script>
+import { getUserAccount, getUserDetail } from '@/request/index'
 export default {
+    data() {
+        return {
+            nickname: '立即登录',//昵称
+            avatarUrl: '/static/moren.webp'//头像
+        }
+    },
     props: {
         visible: {
             type: Boolean,
@@ -48,7 +58,14 @@ export default {
             }
 
         },
-    }
+    },
+    async created() {
+        const res = await getUserAccount()
+        const res1 = await getUserDetail(res.data.account.id)
+        console.log(res1)
+        this.avatarUrl = res1.data.profile.avatarUrl
+        this.nickname = res1.data.profile.nickname
+    },
 }
 </script>
 <style scoped>
@@ -65,4 +82,5 @@ export default {
 .slide-enter-to,
 .slide-leave {
     transform: translateX(0);
-}</style>
+}
+</style>

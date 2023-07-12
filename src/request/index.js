@@ -1,8 +1,17 @@
 import axios from 'axios';
+import store from 'storejs';
 const http = axios.create({
   baseURL: 'https://netease-cloud-music-api-five-roan-88.vercel.app',
 });
 
+// 添加请求拦截器
+http.interceptors.request.use(function (config) {
+ 
+  const cookie = store.get("__m__cookie")??""
+  config.params = config.params || {};
+  config.params.cookie = cookie
+  return config
+})
 
 export async function fetchToplistDetail() {
   const res = await http.get('/toplist/detail');
@@ -13,3 +22,22 @@ export async function fetchToplistDetail() {
       })));
   return playlist.map(item => item.data.playlist)
 }
+
+export const getQrKey = () => http.get('/login/qr/key')
+
+export const getQrInfo = (key , qrimg = 1) => 
+http.get('/login/qr/create',{params:{key , qrimg}})
+
+export const checkQrStatus = (key) =>
+  http.get('/login/qr/check', { params: { key, timestamp: Date.now() } });
+
+export const getUserAccount = () => http.get('/user/account')
+
+export const getUserdata = () => http.get('/user/subcount')
+
+export const getUserDetail = (params) => http.get(`/user/detail?uid=${params}`)
+
+// 用户歌单
+export const Userdata = (params) => http.get(`/user/playlist?uid=${params}`)
+
+

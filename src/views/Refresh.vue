@@ -1,7 +1,8 @@
 <template>
-    <div class=" w-full h-full  ">
+    <div class=" w-full h-full " v-scroll="handleScroll">
         <!-- 头部 -->
-        <div class=" w-screen flex justify-between h-[16vw] items-center text-white fixed top-0 " style="background-color: rgba(255, 255, 255, 0);">
+        <div class=" w-screen flex justify-between h-[16vw] items-center text-white fixed top-0 px-4 z-[999] "
+            :class="{ 'bjs': isScrolling }">
             <div class=" flex items-center">
                 <router-link :to="{ path: '/IndexView' }">
                     <icon icon="uiw:arrow-left" class=" text-xl mr-5"></icon>
@@ -13,59 +14,85 @@
                 <icon icon="radix-icons:dots-vertical" class=" text-2xl"></icon>
             </div>
         </div>
-        <div class=" w-full h-full px-4 bjs pt-[16vw]">
+        <div class=" w-full h-full px-4 bjs pt-[16vw] ">
             <!-- 详情 -->
-            <div class=" w-full">
-                <div class=" w-full h-[34vw]  flex">
-                    <div class=" w-[34vw] h-full relative">
+            <div class=" w-full relative mb-8 " :class="{ 'disp': isone }">
+                <div class=" w-full" >
+                    <div class=" w-full" :class="{ 'hide': istwo }">
+                        <div class=" w-full h-[34vw]  flex">
+                            <div class=" w-[34vw] h-full relative">
 
-                        <div class=" w-full h-full flex items-center ">
-                            <img :src="songSheet.playlist?.coverImgUrl" alt=""
-                                class=" w-[30vw] h-[30vw] rounded-lg z-[999]">
+                                <div class=" w-full h-full flex items-center ">
+                                    <img :src="songSheet.playlist?.coverImgUrl" alt=""
+                                        class=" w-[30vw] h-[30vw] rounded-lg z-[998]">
+                                </div>
+                                <div class=" absolute top-[3vw] right-[4vw] flex">
+                                    <icon icon="uiw:caret-right" class=" text-white text-sm"></icon>
+                                    <span class=" text-white text-xs">{{ Math.round((songSheet.playlist?.playCount) / 10000)
+                                    }}万</span>
+                                </div>
+                                <div class=" w-[26vw] h-[28vw] absolute top-[0vw] left-[2vw] rounded-xl z-[1]"
+                                    style="background-color: rgba(255, 255, 255, 0.2);"></div>
+                            </div>
+                            <div class=" w-[60vw] h-full  flex justify-between">
+                                <div class=" w-[50vw] h-full ">
+                                    <div class=" h-[12vw]">
+                                        <p class=" text-white text-lg yingcang2">{{ songSheet.playlist?.name }}</p>
+                                    </div>
+                                    <div class=" flex items-center mt-[4vw] w-full">
+                                        <img :src="songSheet.playlist?.creator?.avatarUrl" alt=""
+                                            class=" w-[9vw] h-[9vw] rounded-2xl mr-2">
+                                        <span class=" w-[26vw] text-white opacity-80 text-xs mr-2 yingcang">{{
+                                            songSheet.playlist?.creator.nickname
+                                        }}</span>
+                                        <div class=" flex   rounded-2xl items-center justify-center py-1 w-[16vw]"
+                                            style="background-color: rgba(255, 255, 255, 0.2);">
+                                            <Icon icon="ic:outline-plus" color="white" class=" opacity-80 mr-1 text-xl" />
+                                            <span class=" text-sm text-white opacity-60 -ml-[1vw]">关注</span>
+                                        </div>
+                                    </div>
+                                    <div class=" w-full mt-2 flex">
+                                        <div class=" px-[1vw] py-[1px]  flex items-center justify-center rounded-md overflow-hidden mr-1"
+                                            style="background-color: rgba(255, 255, 255, 0.2);"
+                                            v-for="item in songSheet.playlist?.tags" :key="item.id">
+                                            <span class=" text-xs text-white -mr-1">{{ item }}</span>
+                                            <icon icon="prime:chevron-right" class=" text-white text-xl -mr-2"></icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class=" absolute top-[3vw] right-[4vw] flex">
-                            <icon icon="uiw:caret-right" class=" text-white text-sm"></icon>
-                            <span class=" text-white text-xs">{{ Math.round((songSheet.playlist?.playCount) / 10000)
-                            }}万</span>
+                        <div class=" my-3">
+                            <p class=" text-sm text-[#fff] opacity-[0.6] yingcang">{{ songSheet.playlist?.description }}</p>
                         </div>
-                        <div class=" w-[26vw] h-[28vw] absolute top-[0vw] left-[2vw] rounded-xl z-[1]"
-                            style="background-color: rgba(255, 255, 255, 0.2);"></div>
                     </div>
-                    <div class=" w-[60vw] h-full  flex justify-between">
-                        <div class=" w-[50vw] h-full ">
-                            <div class=" h-[12vw]">
-                                <p class=" text-white text-lg ">{{ songSheet.playlist?.name }}</p>
-                            </div>
-                            <div class=" flex items-center mt-[4vw] w-full">
-                                <img :src="songSheet.playlist?.creator?.avatarUrl" alt=""
-                                    class=" w-[9vw] h-[9vw] rounded-2xl mr-2">
-                                <span class=" text-white opacity-80 text-xs mr-2">{{ songSheet.playlist?.creator.nickname
-                                }}</span>
-                                <div class=" flex   rounded-2xl items-center justify-center py-1 w-[16vw]"
-                                    style="background-color: rgba(255, 255, 255, 0.2);">
-                                    <Icon icon="ic:outline-plus" color="white" class=" opacity-80 mr-1 text-xl" />
-                                    <span class=" text-sm text-white opacity-60 -ml-[1vw]">关注</span>
-                                </div>
-                            </div>
-                            <div class=" w-full mt-2 flex">
-                                <div class=" px-[1vw] py-[1px]  flex items-center justify-center rounded-md overflow-hidden mr-1"
-                                    style="background-color: rgba(255, 255, 255, 0.2);"
-                                    v-for="item in songSheet.playlist?.tags" :key="item.id">
-                                    <span class=" text-xs text-white -mr-1">{{ item }}</span>
-                                    <icon icon="prime:chevron-right" class=" text-white text-xl -mr-2"></icon>
-                                </div>
-                            </div>
+                    <div class=" w-full " :class="{ 'hide' : isthree}">
+                        <div class=" pt-2">
+                            <p class=" text-xs mb-4 text-white opacity-40">喜欢这个歌单的用户也听了</p>
                         </div>
-                        <div>
-                            <div class=" px-[2px] py-[2px] flex rounded-2xl mt-[2vw]"
-                                style=" background-color: rgba(255, 255, 255, 0.3);">
-                                <icon icon="prime:chevron-down" class=" text-[#FBFEFF] text-xl -mt-[1px]"></icon>
+                        <div class=" w-full">
+                            <!-- <van-swipe class=" w-screen mb-4 -ml-4 pl-4 overflow-hidden">
+                                <van-swipe-item v-for=" i in Carousel " :key="i.id" class=" h-[40vw] mr-2 " style="width: 30vw !important;">
+                                    <img :src="i.coverImgUrl" alt="" class=" w-[30vw] h-[30vw] rounded-xl">
+                                    <p class=" text-sm text-white yingcang2">{{ i.name }}</p>
+                                </van-swipe-item>
+                            </van-swipe> -->
+                           <div class=" overflow-x-auto">
+                            <div class="w-[180vw] flex">
+                                <div v-for=" i in Carousel " :key="i.id" class=" h-[40vw] mr-2 relative" style="width: 30vw !important;">
+                                    
+                                    <img :src="i.coverImgUrl" alt="" class=" w-[30vw] h-[30vw] rounded-xl">
+                                    <p class=" text-sm text-white yingcang2">{{ i.name }}</p>
+                                    
+                                </div>
                             </div>
+                           </div>
                         </div>
                     </div>
                 </div>
-                <div class=" my-3">
-                    <p class=" text-sm text-[#fff] opacity-[0.6] yingcang">{{ songSheet.playlist?.description }}</p>
+                <div class=" px-[2px] py-[2px] rounded-2xl absolute top-[1vw] right-0"
+                    style=" background-color: rgba(255, 255, 255, 0.3);" @click="expand()" :class="{ 'overturn': istwo }">
+                    <icon icon="prime:chevron-down" class=" text-[#FBFEFF] text-xl -mt-[1px]"></icon>
                 </div>
                 <div class=" flex justify-between">
                     <div class=" w-[26vw] py-1 bg-[#7D8CB7] rounded-3xl  flex items-center justify-center">
@@ -78,14 +105,15 @@
                     </div>
                     <div class=" w-[26vw] py-1 bg-[#FF2F49] rounded-3xl  flex items-center justify-center">
                         <Icon icon="fa6-solid:folder-plus" color="white" class=" text-xl mr-2" />
-                        <span class=" text-white text-sm">{{ songSheet.playlist?.subscribedCount }}</span>
+                        <span class=" text-white text-sm">{{ ((songSheet.playlist?.subscribedCount) / 10000).toFixed(1)
+                        }}万</span>
                     </div>
                 </div>
             </div>
             <!-- 歌单列表 -->
-            <div class=" w-screen bg-white -ml-4 mt-8 h-4/6"
-                style="border-top-left-radius: 6vw;border-top-right-radius: 6vw;">
-                <div class=" flex justify-between px-[5vw] pt-[5vw] h-[16vw]">
+            <div class=" w-screen bg-white -ml-4  z-[999]  h-full " :class="{ 'effect2': isone }"
+                style="border-top-left-radius: 6vw;border-top-right-radius: 6vw;" ref="myElement">
+                <div class=" flex justify-between px-[5vw]  h-[16vw] " :class="{ 'effect1': isone }">
                     <div class=" flex items-center">
                         <Icon icon="icon-park-solid:play" color="#ff4d3f" class=" text-2xl" />
                         <span class="  ml-[4vw] text-lg font-bold">播放全部</span>
@@ -97,7 +125,7 @@
                     </div>
                 </div>
                 <div class=" h-full">
-                    <ul>
+                    <ul class=" bg-white h-full ">
                         <li class=" h-[16vw]  flex items-center justify-between px-[5vw]" v-for="(item, i) in musicData"
                             :key="item.id">
                             <div class=" flex items-center">
@@ -137,6 +165,11 @@ export default {
             id: 0,
             musicData: [],
             songSheet: [],
+            Carousel:[],
+            isScrolling: false,
+            isone: false,
+            istwo: false,
+            isthree:true,
         }
     },
     methods: {
@@ -144,8 +177,27 @@ export default {
             let url = window.location.href
             let index = url.lastIndexOf("/") + 1
             this.id = url.slice(index)
+        },
+        handleScroll() {
+            // console.log('开始滚动')
+            // const scrollDistance = window.scrollY;
+            // console.log(scrollDistance)
+            const distanceTop = this.$refs.myElement.getBoundingClientRect().top;
+            if (!this.isScrolling) {
+                this.isScrolling = true;
+            }
+            if (window.scrollY === 0) {
+                this.isScrolling = false;
+            }
+
+            distanceTop < 50 ? this.isone = true : this.isone = false
+        },
+        expand() {
+            this.istwo = !this.istwo
+            this.isthree = !this.isthree
         }
     },
+
     async created() {
         this.local();
         axios
@@ -159,7 +211,8 @@ export default {
             .catch((err) => {
                 console.log(err)
             })
-        axios.get(`https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/detail?id=${this.id}`)
+        axios
+            .get(`https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/detail?id=${this.id}`)
             .then((res) => {
                 this.songSheet = res.data;
                 console.log(this.songSheet)
@@ -167,7 +220,36 @@ export default {
             .catch((err) => {
                 console.log(err)
             })
+        axios
+            .get(`https://netease-cloud-music-api-five-roan-88.vercel.app/related/playlist?id=${this.id}`)
+            .then((res) => {
+                this.Carousel = res.data.playlists;
+                console.log(this.Carousel)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    },
+    mounted() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+    directives: {
+        scroll: {
+            inserted(el, binding, vnode) {
+                const handleScroll = binding.value;
+
+                window.addEventListener('scroll', handleScroll);
+
+                vnode.context.$once('hook:destroyed', () => {
+                    window.removeEventListener('scroll', handleScroll);
+                });
+            }
+        }
     }
+
 
 }
 </script>
@@ -177,10 +259,54 @@ export default {
     background: linear-gradient(0deg, rgba(95, 114, 170, 1) 80%, rgba(72, 89, 141, 1) 100%);
 }
 
+.effect1 {
+    width: 100vw;
+    position: fixed;
+    background-color: #fff;
+    top: 16vw;
+    z-index: 999;
+}
+
+.effect2 {
+    padding-top: 16vw;
+}
+
+
+
 .yingcang {
     -webkit-line-clamp: 1;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-}</style>
+}
+
+.yingcang2 {
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.overturn {
+    transform: rotateX(180deg);
+}
+
+.hide {
+    display: none;
+}
+
+
+div::-webkit-scrollbar {
+  width: 0;
+}
+
+div::-webkit-scrollbar-track {
+  opacity: 0;
+}
+div::-webkit-scrollbar-thumb {
+  opacity: 0;
+}
+
+</style>

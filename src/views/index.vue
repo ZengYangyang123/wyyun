@@ -2,8 +2,7 @@
     <div class="w-screen overflow-hidden bg-[#FAFAFA] " :class="{ dark: switchCheckStatus }">
         <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#212121] dark:text-[#fff]">
             <!-- 头部 -->
-            <div
-                class=" w-screen  flex justify-between items-center py-5 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
+            <div class=" w-screen  flex justify-between items-center py-5 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
                 <div @click="drawerSidebar = !drawerSidebar; updateOverflow()">
                     <Icon icon="prime:bars" class="text-4xl"></Icon>
                 </div>
@@ -47,7 +46,7 @@
                 </van-swipe>
             </div>
             <!-- 推荐歌单 -->
-            <div class=" w-screen mt-8" >
+            <div class=" w-screen mt-8">
                 <div class="flex justify-between px-4">
                     <div class="flex items-center">
                         <span class="font-bold">推荐歌单</span>
@@ -79,7 +78,7 @@
                         </van-swipe-item>
 
 
-                        <van-swipe-item v-for="(item,i) in songSheet" :key="item.id"
+                        <van-swipe-item v-for="(item, i) in songSheet" :key="item.id"
                             class="  relative   h-[46vw] float-left  flex mr-2">
                             <router-link :to="{ path: `/Refresh/${id[i]}` }">
                                 <div class=" w-full h-full absolute z-10">
@@ -96,7 +95,7 @@
                 </div>
             </div>
             <!-- 新歌新碟 -->
-            <div class=" w-screen m-auto mt-8" >
+            <div class=" w-screen m-auto mt-8">
                 <div class="flex justify-between px-3">
                     <div class="flex items-center">
                         <span class="font-bold">新歌新碟\数字专辑</span>
@@ -118,13 +117,16 @@
                                     <p class=" font-bold py-3">
                                         {{ i.uiElement.mainTitle.title }}
                                     </p>
-                                    <p class=" flex justify-between">
-                                        <span class=" text-xs mr-4 rounded" :class="data[x][1]">{{ data[x][0] }}</span>
-                                        <span class=" text-xs yingcang w-[100px] h-4">{{ i.uiElement.subTitle.title
-                                        }}</span>
+                                    <div class=" flex ">
+                                        <p class=" flex ">
+                                            <span class=" text-xs rounded mr-[3vw]" :class="data[x][1]">{{ data[x][0]
+                                            }}</span>
+                                            <span class=" text-xs yingcang w-[100px] h-4">{{ i.uiElement.subTitle.title
+                                            }}</span>
+                                        </p>
                                         <span class=" text-xs w-3/12 yingcang">{{ i.resourceExtInfo.artists[0].name
                                         }}</span>
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </van-swipe-item>
@@ -512,9 +514,8 @@ import axios from 'axios';
 import '../../node_modules/swiper/swiper.css';
 import { Icon } from '@iconify/vue2';
 
-
 export default {
-    
+
     data() {
         //响应式数据
         return {
@@ -555,7 +556,8 @@ export default {
                 ['Hi-Res', 'huang'],
                 ['HQ', 'lan']
             ],
-            id: []
+            id: [],
+            savedData: '',
         };
     },
 
@@ -569,7 +571,7 @@ export default {
                 this.newSong = res.data.data.blocks[5].creatives;
                 this.theCharts = res.data.data.blocks[3].creatives;
                 this.subjectOfATalk = res.data.data.blocks[2].creatives;
-                
+
                 this.changeID()
 
             })
