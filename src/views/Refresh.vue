@@ -1,7 +1,7 @@
 <template>
     <div class=" w-full h-full " v-scroll="handleScroll">
         <!-- 头部 -->
-        <div class=" w-screen flex justify-between h-[16vw] items-center text-white fixed top-0 px-4 z-[999] "
+        <div class=" w-screen flex justify-between h-[16vw] items-center text-white fixed top-0 px-4 z-[50] "
             :class="{ 'bjs': isScrolling }">
             <div class=" flex items-center">
                 <router-link :to="{ path: '/IndexView' }">
@@ -17,26 +17,26 @@
         <div class=" w-full h-full px-4 bjs pt-[16vw] ">
             <!-- 详情 -->
             <div class=" w-full relative mb-8 " :class="{ 'disp': isone }">
-                <div class=" w-full" >
+                <div class=" w-full">
                     <div class=" w-full" :class="{ 'hide': istwo }">
                         <div class=" w-full h-[34vw]  flex">
                             <div class=" w-[34vw] h-full relative">
 
                                 <div class=" w-full h-full flex items-center ">
                                     <img :src="songSheet.playlist?.coverImgUrl" alt=""
-                                        class=" w-[30vw] h-[30vw] rounded-lg z-[998]">
+                                        class=" w-[30vw] h-[30vw] rounded-lg z-[10]">
                                 </div>
-                                <div class=" absolute top-[3vw] right-[4vw] flex">
+                                <div class=" absolute top-[3vw] right-[4vw] flex z-[11]">
                                     <icon icon="uiw:caret-right" class=" text-white text-sm"></icon>
                                     <span class=" text-white text-xs">{{ Math.round((songSheet.playlist?.playCount) / 10000)
                                     }}万</span>
                                 </div>
-                                <div class=" w-[26vw] h-[28vw] absolute top-[0vw] left-[2vw] rounded-xl z-[1]"
+                                <div class=" w-[27vw] h-[28vw] absolute top-[0vw] left-[2vw] rounded-xl z-[1]"
                                     style="background-color: rgba(255, 255, 255, 0.2);"></div>
                             </div>
                             <div class=" w-[60vw] h-full  flex justify-between">
                                 <div class=" w-[50vw] h-full ">
-                                    <div class=" h-[12vw]">
+                                    <div class=" h-[12vw] flex items-center">
                                         <p class=" text-white text-lg yingcang2">{{ songSheet.playlist?.name }}</p>
                                     </div>
                                     <div class=" flex items-center mt-[4vw] w-full">
@@ -66,7 +66,7 @@
                             <p class=" text-sm text-[#fff] opacity-[0.6] yingcang">{{ songSheet.playlist?.description }}</p>
                         </div>
                     </div>
-                    <div class=" w-full " :class="{ 'hide' : isthree}">
+                    <div class=" w-full " :class="{ 'hide': isthree }">
                         <div class=" pt-2">
                             <p class=" text-xs mb-4 text-white opacity-40">喜欢这个歌单的用户也听了</p>
                         </div>
@@ -77,16 +77,17 @@
                                     <p class=" text-sm text-white yingcang2">{{ i.name }}</p>
                                 </van-swipe-item>
                             </van-swipe> -->
-                           <div class=" overflow-x-auto">
-                            <div class="w-[180vw] flex">
-                                <div v-for=" i in Carousel " :key="i.id" class=" h-[40vw] mr-2 relative" style="width: 30vw !important;">
-                                    
-                                    <img :src="i.coverImgUrl" alt="" class=" w-[30vw] h-[30vw] rounded-xl">
-                                    <p class=" text-sm text-white yingcang2">{{ i.name }}</p>
-                                    
+                            <div class=" overflow-x-auto">
+                                <div class="w-[180vw] flex">
+                                    <div v-for=" i in Carousel " :key="i.id" class=" h-[40vw] mr-2 relative"
+                                        style="width: 30vw !important;">
+
+                                        <img :src="i.coverImgUrl" alt="" class=" w-[30vw] h-[30vw] rounded-xl">
+                                        <p class=" text-sm text-white yingcang2">{{ i.name }}</p>
+
+                                    </div>
                                 </div>
                             </div>
-                           </div>
                         </div>
                     </div>
                 </div>
@@ -111,11 +112,11 @@
                 </div>
             </div>
             <!-- 歌单列表 -->
-            <div class=" w-screen bg-white -ml-4  z-[999]  h-full " :class="{ 'effect2': isone }"
+            <div class=" w-screen bg-white -ml-4    h-full " :class="{ 'effect2': isone }"
                 style="border-top-left-radius: 6vw;border-top-right-radius: 6vw;" ref="myElement">
                 <div class=" flex justify-between px-[5vw]  h-[16vw] " :class="{ 'effect1': isone }">
                     <div class=" flex items-center">
-                        <Icon icon="icon-park-solid:play" color="#ff4d3f" class=" text-2xl" />
+                        <Icon icon="icon-park-solid:play" color="#ff4d3f" class=" text-2xl" @click.native="playAll" />
                         <span class="  ml-[4vw] text-lg font-bold">播放全部</span>
                         <span class=" text-[#909196] text-xs items-center ml-[3vw]">({{ this.musicData.length }})</span>
                     </div>
@@ -127,7 +128,7 @@
                 <div class=" h-full">
                     <ul class=" bg-white h-full ">
                         <li class=" h-[16vw]  flex items-center justify-between px-[5vw]" v-for="(item, i) in musicData"
-                            :key="item.id">
+                            :key="item.id" @click="dianjibofang(item.id)">
                             <div class=" flex items-center">
                                 <span class=" text-xl text-[#979797] mr-[6vw] w-[6vw] text-center">{{ i + 1 }}</span>
                                 <div class=" w-[60vw]">
@@ -158,19 +159,52 @@
 </template>
 <script>
 import axios from 'axios';
+import store from 'storejs'
 
 export default {
     data() {
         return {
             id: 0,
-            musicData: [],
-            songSheet: [],
-            Carousel:[],
-            isScrolling: false,
-            isone: false,
+            musicData: [],//所有歌单
+            songSheet: [],//歌单详情
+            Carousel: [],//推荐歌单
+            isScrolling: false,//判断是否开始滚动
+            isone: false,//判断div到顶部的距离
             istwo: false,
-            isthree:true,
+            isthree: true,
         }
+    },
+    async created() {
+        this.local();
+        axios
+            .get(
+                `https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/track/all?id=${this.id}`
+            )
+            .then((res) => {
+                this.musicData = res.data.songs
+                // console.log(this.musicData)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        axios
+            .get(`https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/detail?id=${this.id}`)
+            .then((res) => {
+                this.songSheet = res.data;
+                // console.log(this.songSheet)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        axios
+            .get(`https://netease-cloud-music-api-five-roan-88.vercel.app/related/playlist?id=${this.id}`)
+            .then((res) => {
+                this.Carousel = res.data.playlists;
+                // console.log(this.Carousel)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     },
     methods: {
         local() {
@@ -179,9 +213,6 @@ export default {
             this.id = url.slice(index)
         },
         handleScroll() {
-            // console.log('开始滚动')
-            // const scrollDistance = window.scrollY;
-            // console.log(scrollDistance)
             const distanceTop = this.$refs.myElement.getBoundingClientRect().top;
             if (!this.isScrolling) {
                 this.isScrolling = true;
@@ -195,40 +226,25 @@ export default {
         expand() {
             this.istwo = !this.istwo
             this.isthree = !this.isthree
-        }
-    },
-
-    async created() {
-        this.local();
-        axios
-            .get(
-                `https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/track/all?id=${this.id}`
+        },
+        playAll() {
+            window.$player.replacePlaylist(
+                this.musicData.map((song) => song.id),
+                '',
+                ''
             )
-            .then((res) => {
-                this.musicData = res.data.songs
-                console.log(this.musicData)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        axios
-            .get(`https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/detail?id=${this.id}`)
-            .then((res) => {
-                this.songSheet = res.data;
-                console.log(this.songSheet)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        axios
-            .get(`https://netease-cloud-music-api-five-roan-88.vercel.app/related/playlist?id=${this.id}`)
-            .then((res) => {
-                this.Carousel = res.data.playlists;
-                console.log(this.Carousel)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+            store.set('All', this.musicData);
+
+        },
+        dianjibofang(id) {
+            window.$player.replacePlaylist(
+                this.musicData.map((song) => song.id),
+                '',
+                '',
+                id
+            )
+            store.set('All', this.musicData);
+        }
     },
     mounted() {
         window.addEventListener('scroll', this.handleScroll);
@@ -264,7 +280,7 @@ export default {
     position: fixed;
     background-color: #fff;
     top: 16vw;
-    z-index: 999;
+    z-index: 50;
 }
 
 .effect2 {
@@ -299,14 +315,14 @@ export default {
 
 
 div::-webkit-scrollbar {
-  width: 0;
+    width: 0;
 }
 
 div::-webkit-scrollbar-track {
-  opacity: 0;
-}
-div::-webkit-scrollbar-thumb {
-  opacity: 0;
+    opacity: 0;
 }
 
+div::-webkit-scrollbar-thumb {
+    opacity: 0;
+}
 </style>

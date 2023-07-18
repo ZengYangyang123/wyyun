@@ -1,7 +1,9 @@
 <template>
     <div class=" w-screen bg-[#F5F5F5]">
         <div class=" w-full h-[16vw] flex items-center bg-white px-[4vw] mb-[4vw]">
-            <Icon icon="prime:arrow-left" class=" text-2xl mr-[2vw]"></Icon>
+            <router-link :to="{ path: '/JSX' }">
+                <Icon icon="prime:arrow-left" class=" text-2xl mr-[2vw]"></Icon>
+            </router-link>
             <span class=" text-base">我的资料</span>
         </div>
         <div class=" w-full bg-white px-[4vw] mb-[4vw]">
@@ -36,7 +38,7 @@
                 </li>
                 <li class=" w-full h-[16vw] flex items-center justify-between " style="border-bottom: 1px solid #F3F3F3;">
                     <span class=" text-base">大学</span>
-                    <span class=" text-[#999] text-sm"></span>
+                    <span class=" text-[#999] text-sm">未填写</span>
                 </li>
                 <li class=" w-full h-[16vw] flex items-center justify-between " style="border-bottom: 1px solid #F3F3F3;">
                     <span class=" text-base">音乐标签</span>

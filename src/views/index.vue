@@ -2,7 +2,7 @@
     <div class="w-screen overflow-hidden bg-[#FAFAFA] " :class="{ dark: switchCheckStatus }">
         <div class=" w-full zhuye h-screen overflow-scroll dark:bg-[#212121] dark:text-[#fff]">
             <!-- 头部 -->
-            <div class=" w-screen  flex justify-between items-center py-5 fixed top-0 z-20  bg-slate-50 dark:bg-[#212121]">
+            <div class=" w-screen  flex justify-between items-center py-5 fixed top-0 z-[50]  bg-slate-50 dark:bg-[#212121]">
                 <div @click="drawerSidebar = !drawerSidebar; updateOverflow()">
                     <Icon icon="prime:bars" class="text-4xl"></Icon>
                 </div>
@@ -253,7 +253,6 @@
         </div>
         <!--  -->
         <Drawer :visible="drawerVisible" @dianji="(e) => (drawerVisible = e)">
-            <!-- <Drawer :visible.sync="drawerVisible"> -->
 
             <template #header>
 
@@ -511,7 +510,7 @@
 </template>
 <script>
 import axios from 'axios';
-import '../../node_modules/swiper/swiper.css';
+import '../../node_modules/swiper/css/swiper.css';
 import { Icon } from '@iconify/vue2';
 
 export default {
@@ -565,7 +564,7 @@ export default {
         //生命周期钩子函数
         axios.get('https://netease-cloud-music-c2c1ys55f-cc-0820.vercel.app/homepage/block/page')
             .then((res) => {
-                console.log(res.data.data.blocks);
+                // console.log(res.data.data.blocks);
                 this.menu = res.data.data.blocks[0].extInfo.banners;
                 this.songSheet = res.data.data.blocks[1].creatives;
                 this.newSong = res.data.data.blocks[5].creatives;
@@ -601,14 +600,9 @@ export default {
             })
     },
     methods: {
-        //交互操作，响应事件函数
-        // fn(e) {
-        //     this.drawerVisible = e
-        // }
+
         updateOverflow() {
             const body = document.querySelector('.zhuye');
-            // console.log(body)
-            // console.log(this.drawerVisible)
             body.setAttribute('style', `overflow: ${this.drawerSidebar ? ' scroll' : ' hidden'}`);
 
         },
@@ -621,13 +615,13 @@ export default {
                 }
                 this.resourceData = this.songSheet[this.visiblesss].uiElement?.mainTitle.title
             }, 3000);
-        },
+        },//上下轮播效果
         changeID() {
             this.id = []
             for (let i = 0; i < this.songSheet.length; i++) {
                 this.id.push(parseInt(this.songSheet[i].creativeId))
             }
-            console.log(this.id)
+            // console.log(this.id)
         },
     },
     mounted() {
@@ -747,9 +741,9 @@ export default {
     color: rgb(0, 149, 255)
 }
 
-.marginright {
+/* .marginright {
     margin-right: 14px !important;
-}
+} */
 
 .vip {
     background: rgb(61, 57, 56);

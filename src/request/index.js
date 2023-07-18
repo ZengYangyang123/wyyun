@@ -40,4 +40,28 @@ export const getUserDetail = (params) => http.get(`/user/detail?uid=${params}`)
 // 用户歌单
 export const Userdata = (params) => http.get(`/user/playlist?uid=${params}`)
 
+/**
+* @description 播放器
+*/
+export const getMP3 = (id) =>
+http.get(`/song/url/v1`, { params: { id, level: 'standard' } })
+
+//歌曲
+export const getTrackDetail = (id) => http.get('/song/detail', { params: { ids: id } });
+
+//用户听歌排行
+export const PlaybackRecord = (id) => http.get(`/user/record?uid=${id}`)
+
+// 最近播放歌单
+export const RecentlyPlayedPlaylists = (number) => http.get(`/record/recent/playlist?limit=${number}`)
+
+// 歌单
+export const songSheet = (id) => http.get(`/playlist/track/all?id=${id}`)
+
+//歌词
+export const lyricText = (id) => http.get(`/lyric?id=${id}`);
+
+
+
+
 

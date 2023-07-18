@@ -35,7 +35,7 @@ export default {
             <div class=" w-screen h-screen pt-[70vw] relative">
                 <img src={this.backgroundUrl} alt="" class=" w-full h-[70vw] absolute top-0" />
                 {/* 头部 */}
-                <div class=" w-screen h-[16vw]  flex items-center justify-between px-[4vw] fixed top-0 z-[999]">
+                <div class=" w-screen h-[16vw]  flex items-center justify-between px-[4vw] fixed top-0 z-[50]">
                     <router-link to={`/IndexView`}>
                         <Icon icon="uiw:arrow-left" class=" text-white text-xl"></Icon>
                     </router-link>
@@ -53,7 +53,7 @@ export default {
                             <img src={this.avatarUrl} alt="" class=" w-full h-full" />
                         </div>
                         {/* 信息 */}
-                        <div class= {`flex items-center flex-col mt-[2vw] w-full h-[40vw] overflow-hidden donghua ${this.isVisible ? 'gao' : ''}`}
+                        <div class={`flex items-center flex-col mt-[2vw] w-full h-[40vw] overflow-hidden donghua ${this.isVisible ? 'gao' : ''}`}
                         >
                             <div class=" h-[7vw]">
                                 <p class=" text-lg ">{this.nickname}</p>
@@ -82,32 +82,34 @@ export default {
                                 </div>
                             </div>
                             <div class="flex mt-[4vw] mb-[6vw]">
-                                <div class=" h-[9vw] px-[4vw] border-[1px] border-[#E6E6E6] flex items-center rounded-2xl mr-[2vw]">
-                                    <span class="text-sm font-bold">编辑资料</span>
-                                </div>
+                                <router-link to={`/PersonalData`}>
+                                    <div class=" h-[9vw] px-[4vw] border-[1px] border-[#E6E6E6] flex items-center rounded-2xl mr-[2vw]">
+                                        <span class="text-sm font-bold">编辑资料</span>
+                                    </div>
+                                </router-link>
                                 <div class="flex items-center justify-center border-[1px] border-[#E6E6E6] rounded-[50%] h-[9vw] w-[9vw]"
                                     onClick={() => this.isVisible = !this.isVisible}
-                                >
-                                    <Icon icon="prime:chevron-down" class="text-2xl"></Icon>
-                                </div>
+                                ><Icon icon="prime:chevron-down" class="text-2xl"></Icon></div>
                             </div>
-                            <div class= {`w-full px-[4vw] donghua opacity-0 ${this.isVisible ? 'yc' : ''}`}>
-                                <van-swipe class=" w-full overflow-hidden">
-                                    <van-swipe-item class=" h-[20vh] bg-[#F5F5F5] mr-[2vw] rounded-lg flex flex-col items-center" style="width:30vw">
-                                        <img src="" alt="" class=" w-[14vw] h-[14vw] rounded-[50%] my-[2vw] " />
-                                        <p class="text-[#313131] text-xs">一颗狼星</p>
-                                        <p class="text-xs text-[#929292] my-[2vw]">你可能喜欢</p>
-                                        <div class="w-[20vw] h-[4vh] text-[#DD4949] border-[1px] border-[#DD4949] rounded-2xl flex items-center justify-center">
-                                            <span class="mr-[2vw] text-lg">+</span>
-                                            <span class="text-xs">关注</span>
-                                        </div>
-                                    </van-swipe-item>
+                            <div class={`w-full px-[4vw] donghua opacity-0 ${this.isVisible ? 'yc' : ''}`}>
+                                <van-swipe class=" w-full overflow-hidden my-swipe">
+                                    {this.songSheet.slice(8, 14).map(item =>
+                                        <van-swipe-item class=" h-[24vh] bg-[#F5F5F5] mr-[2vw] rounded-lg flex flex-col items-center" style="width:30vw">
+                                            <img src={item.creator.avatarUrl} alt="" class=" w-[14vw] h-[14vw] rounded-[50%] my-[2vw] " />
+                                            <p class="text-[#313131] text-xs">{item.creator.nickname}</p>
+                                            <p class="text-xs text-[#929292] my-[2vw]">你可能喜欢</p>
+                                            <div class="w-[20vw] h-[4vh] text-[#DD4949] border-[1px] border-[#DD4949] rounded-2xl flex items-center justify-center">
+                                                <span class="mr-[2vw] text-lg">+</span>
+                                                <span class="text-xs">关注</span>
+                                            </div>
+                                        </van-swipe-item>
+                                    )}
                                 </van-swipe>
                             </div>
                         </div>
                     </div>
                     {/* 内容 */}
-                    <div class="">
+                    <div class=" w-full">
                         <div>
                             <ul class="text-[#90949F] text-sm flex font-bold  justify-center items-center h-[16vw]">
                                 <li class="">
@@ -122,7 +124,7 @@ export default {
                             </ul>
                         </div>
                         {/* 主页 */}
-                        <div class="w-full ">
+                        <div class="w-full pb-[16vw]">
                             {/* 音乐品味 */}
                             <div class=" w-full bg-white rounded-lg px-[4vw] pt-[6vw] pb-[4vw] mb-[6vw]">
                                 <p class=" text-base tracking-[1vw] font-bold">音乐品味</p>
@@ -214,7 +216,7 @@ export default {
                                 </div>
                             </div>
                             {/* 基本信息 */}
-                            <div class=" w-full bg-white rounded-lg p-[4vw] mb-[6vw]">
+                            <div class=" w-full bg-white rounded-lg p-[4vw] ">
                                 {/* 基本信息 */}
                                 <div class=" flex items-center">
                                     <span class=" text-base tracking-[1vw] font-bold">基本信息</span>
@@ -276,7 +278,7 @@ export default {
         const res1 = await getUserDetail(res.data.account.id)
         // 歌单
         const res2 = await Userdata(res1.data.profile.userId)
-        console.log(res2)
+        console.log(res1)
         this.avatarUrl = res1.data.profile.avatarUrl
         this.nickname = res1.data.profile.nickname
         this.follows = res1.data.profile.follows
@@ -291,3 +293,4 @@ export default {
         this.gender = res1.data.profile.gender
     },
 }
+

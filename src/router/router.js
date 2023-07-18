@@ -6,7 +6,7 @@ export default [
   // 路径重定向
   {
     path: '/',
-    redirect: '/JSX',
+    redirect: '/IndexView',
   },
   {
     path: '/IndexView',

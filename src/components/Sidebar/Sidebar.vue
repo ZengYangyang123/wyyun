@@ -1,9 +1,9 @@
 <template>
-    <div @click="clickHandler" class=" fixed bottom-0 z-30 " :class="{ dark: switchVant }">
-        <div class=" w-screen h-screen bg-black opacity-40 z-40 " ref="drawerMask" v-if="visible"></div>
+    <div @click="clickHandler" class=" fixed bottom-0 z-[997] " :class="{ dark: switchVant }">
+        <div class=" w-screen h-screen bg-black opacity-40 z-[998] " ref="drawerMask" v-if="visible"></div>
         <transition name="slide">
             <div v-show="visible"
-                class=" w-10/12 h-screen bg-[#F5F5F5] text-black dark:text-white dark:bg-[#212121]  absolute left-0 bottom-0 z-50 "
+                class=" w-10/12 h-screen bg-[#F5F5F5] text-black dark:text-white dark:bg-[#212121]  absolute left-0 bottom-0 z-[999] "
                 style="overflow-y: scroll;">
                 <div>
                     <slot name="headerTwo">
@@ -61,10 +61,10 @@ export default {
     },
     async created() {
         const res = await getUserAccount()
-        const res1 = await getUserDetail(res.data.account.id)
-        console.log(res1)
-        this.avatarUrl = res1.data.profile.avatarUrl
-        this.nickname = res1.data.profile.nickname
+        const res1 = await getUserDetail(res.data.account?.id)
+        // console.log(res1)
+        this.avatarUrl = res1.data.profile?.avatarUrl
+        this.nickname = res1.data.profile?.nickname
     },
 }
 </script>
