@@ -6,7 +6,7 @@ export default [
   // 路径重定向
   {
     path: '/',
-    redirect: '/IndexView',
+    redirect: '/MVleaderboard',
   },
   {
     path: '/IndexView',
@@ -32,5 +32,9 @@ export default [
   {
     path:'/PersonalData',
     component:() => import('@/views/PersonalData.vue')
+  },
+  {
+    path:'/MVleaderboard',
+    component:() => import('@/views/MVleaderboard.vue')
   },
 ];
